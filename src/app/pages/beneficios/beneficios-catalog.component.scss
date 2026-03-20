@@ -1,0 +1,550 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+
+$brand-color: #12a8b8;
+$brand-light: #e8f4f5;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  background-color: #fff;
+}
+
+// =============================================
+// TOP BAR
+// =============================================
+.top-bar {
+  background-color: #58585a;
+  padding: 0.4rem 0;
+  font-size: 0.75rem;
+}
+
+.top-links {
+  display: flex;
+  gap: 1.2rem;
+
+  a {
+    color: #fff;
+    text-decoration: none;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.top-socials {
+  display: flex;
+  gap: 0.7rem;
+  margin-left: 1.2rem;
+
+  a {
+    color: #fff;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+}
+
+// =============================================
+// NAVBAR
+// =============================================
+.main-navbar {
+  background-color: #fff;
+  padding: 0.6rem 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.navbar-logo {
+  height: 42px;
+  width: auto;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+
+  a {
+    color: #333;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: color 0.2s;
+
+    &:hover {
+      color: $brand-color;
+    }
+  }
+
+  .nav-btn {
+    border: 2px solid #333;
+    border-radius: 4px;
+    padding: 0.3rem 1rem;
+
+    &:hover {
+      border-color: $brand-color;
+      color: $brand-color;
+    }
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+// =============================================
+// HERO BANNER
+// =============================================
+.hero-banner {
+  background-color: $brand-color;
+  padding: 3rem 1rem;
+  text-align: center;
+
+  @media (min-width: 768px) {
+    padding: 4rem 2rem;
+  }
+}
+
+.hero-title {
+  color: #fff;
+  font-weight: 700;
+  font-size: 3rem;
+  line-height: 1;
+  letter-spacing: 2px;
+  margin: 0;
+
+  @media (min-width: 768px) {
+    font-size: 5rem;
+  }
+
+  @media (min-width: 1200px) {
+    font-size: 6rem;
+  }
+}
+
+// =============================================
+// BANNER EXPERIENCIAS
+// =============================================
+.banner-experiencias {
+  max-width: 680px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  overflow: hidden;
+
+  .banner-img {
+    width: 100%;
+    display: block;
+    border-radius: 14px;
+  }
+}
+
+// =============================================
+// INFO SECTION
+// =============================================
+.info-section {
+  padding: 2.5rem 1rem;
+  background-color: #fff;
+
+  @media (min-width: 768px) {
+    padding: 3.5rem 2rem;
+  }
+}
+
+.info-card {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.info-logo {
+  height: 35px;
+  width: auto;
+  margin-bottom: 1.5rem;
+}
+
+.info-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #12a8b8;
+  margin-bottom: 1rem;
+
+  @media (min-width: 768px) {
+    font-size: 2rem;
+  }
+}
+
+.info-subtitle {
+  font-size: 0.9rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.info-text {
+  font-size: 0.88rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.info-cta {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: $brand-color;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.store-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+
+  .store-btn {
+    display: block;
+
+    img {
+      height: 45px;
+      width: auto;
+    }
+  }
+}
+
+// =============================================
+// CATALOG CONTENT
+// =============================================
+.catalog-content {
+  flex: 1;
+  padding: 2rem 0 3rem;
+  background-color: #f9f9f9;
+}
+
+// =============================================
+// FILTERS
+// =============================================
+.filters-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding: 0 0.75rem;
+
+  @media (min-width: 768px) {
+    padding: 0;
+    justify-content: center;
+    gap: 0.6rem;
+  }
+}
+
+.btn-filter {
+  border-radius: 24px;
+  padding: 0.4rem 1.1rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  border: 2px solid $brand-color;
+  color: $brand-color;
+  background: #fff;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: $brand-light;
+    color: $brand-color;
+  }
+
+  &.active {
+    background-color: $brand-color;
+    color: #fff;
+    border-color: $brand-color;
+  }
+}
+
+// =============================================
+// BENEFIT CARDS
+// =============================================
+.benefit-card {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  }
+
+  .card-body {
+    padding: 1.2rem 0.8rem;
+  }
+
+  .card-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 0.25rem;
+  }
+}
+
+.logo-wrapper {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.6rem;
+}
+
+.benefit-logo {
+  max-width: 80px;
+  max-height: 80px;
+  object-fit: contain;
+}
+
+.logo-placeholder {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: $brand-color;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.badge-category {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: $brand-color;
+  background-color: $brand-light;
+  padding: 0.25rem 0.6rem;
+  border-radius: 12px;
+}
+
+// =============================================
+// CTA BANNER
+// =============================================
+.cta-banner {
+  background-color: $brand-color;
+  padding: 2.5rem 1.5rem;
+}
+
+.cta-inner {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+.cta-icon {
+  width: 48px;
+  height: 48px;
+  color: #fff;
+  flex-shrink: 0;
+
+  @media (max-width: 600px) {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.cta-text-block {
+  flex: 1;
+}
+
+.cta-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 0.3rem;
+}
+
+.cta-text {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.cta-btn {
+  font-family: 'Poppins', sans-serif;
+  background-color: #fff;
+  color: $brand-color;
+  font-weight: 600;
+  font-size: 0.85rem;
+  border: none;
+  border-radius: 24px;
+  padding: 0.6rem 1.4rem;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+  flex-shrink: 0;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    color: $brand-color;
+  }
+}
+
+.cta-arrow {
+  width: 16px;
+  height: 16px;
+}
+
+.cta-btn-outline {
+  font-family: 'Poppins', sans-serif;
+  background: none;
+  color: $brand-color;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: 2px solid $brand-color;
+  border-radius: 24px;
+  padding: 0.5rem 1.6rem;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: $brand-color;
+    color: #fff;
+  }
+}
+
+// =============================================
+// MODAL
+// =============================================
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-card {
+  background: #fff;
+  border-radius: 20px;
+  max-width: 420px;
+  width: 100%;
+  padding: 2.5rem 2rem;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  animation: slideUp 0.25s ease;
+}
+
+.modal-close {
+  position: absolute;
+  top: 0.8rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  color: #999;
+  cursor: pointer;
+  line-height: 1;
+
+  &:hover {
+    color: #333;
+  }
+}
+
+.modal-icon-svg {
+  width: 56px;
+  height: 56px;
+  color: $brand-color;
+  margin-bottom: 1rem;
+}
+
+.modal-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 0.8rem;
+}
+
+.modal-text {
+  font-size: 0.88rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+
+.modal-link {
+  color: $brand-color;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// =============================================
+// FOOTER
+// =============================================
+.catalog-footer {
+  background-color: #58585a;
+  color: #fff;
+  padding: 0.8rem 0;
+  font-size: 0.8rem;
+  border-top: none;
+}
+
+.footer-socials {
+  display: flex;
+  gap: 0.8rem;
+
+  a {
+    color: #fff;
+    transition: color 0.2s;
+
+    &:hover {
+      color: $brand-color;
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
