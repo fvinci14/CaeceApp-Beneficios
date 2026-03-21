@@ -1,12 +1,13 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { FirestoreService } from '../../services/firestore.service';
 import { Place, ICategory } from '../../interfaces/benefit.interface';
 
 @Component({
   selector: 'app-beneficios-catalog',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './beneficios-catalog.component.html',
   styleUrls: ['./beneficios-catalog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -17,16 +18,30 @@ export class BeneficiosCatalogComponent implements OnInit {
 
   categories: ICategory[] = [];
   benefits: Place[] = [];
-  selectedCategory = '';
+  selectedCategories: Set<string> = new Set();
+  searchTerm = '';
   loading = true;
   categoryMap: Record<string, string> = {};
   showFormModal = false;
 
   get filteredBenefits(): Place[] {
-    if (!this.selectedCategory) {
-      return this.benefits;
+    let results = this.benefits;
+
+    if (this.selectedCategories.size > 0) {
+      results = results.filter(b =>
+        b.categories?.some(c => this.selectedCategories.has(c))
+      );
     }
-    return this.benefits.filter(b => b.categories?.includes(this.selectedCategory));
+
+    if (this.searchTerm.trim()) {
+      const term = this.searchTerm.toLowerCase().trim();
+      results = results.filter(b =>
+        b.name.toLowerCase().includes(term) ||
+        b.discount.toLowerCase().includes(term)
+      );
+    }
+
+    return results;
   }
 
   async ngOnInit() {
@@ -57,12 +72,25 @@ export class BeneficiosCatalogComponent implements OnInit {
     }
   }
 
-  selectCategory(uid: string) {
-    this.selectedCategory = this.selectedCategory === uid ? '' : uid;
+  toggleCategory(uid: string) {
+    if (this.selectedCategories.has(uid)) {
+      this.selectedCategories.delete(uid);
+    } else {
+      this.selectedCategories.add(uid);
+    }
+  }
+
+  clearFilters() {
+    this.selectedCategories.clear();
+    this.searchTerm = '';
   }
 
   getCategoryNames(categoryIds: string[]): string {
     if (!categoryIds?.length) return '';
     return categoryIds.map(id => this.categoryMap[id] || id).join(', ');
+  }
+
+  getCategoryIndex(uid: string): number {
+    return this.categories.findIndex(c => c.uid === uid);
   }
 }

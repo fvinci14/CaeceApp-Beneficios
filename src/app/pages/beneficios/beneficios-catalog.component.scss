@@ -1,6 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+@use 'sass:list';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-$brand-color: #12a8b8;
+$brand-color: #33a8b8;
+$brand-dark: #036a74;
 $brand-light: #e8f4f5;
 
 :host {
@@ -15,22 +17,83 @@ $brand-light: #e8f4f5;
 // TOP BAR
 // =============================================
 .top-bar {
-  background-color: #58585a;
-  padding: 0.4rem 0;
-  font-size: 0.75rem;
+  background-color: #6d6e70;
+  padding: 0.6rem 2rem;
+  font-size: 0.68rem;
+
+  > .container {
+    max-width: 100%;
+    padding: 0;
+  }
 }
 
 .top-links {
   display: flex;
-  gap: 1.2rem;
+  gap: 2rem;
 
   a {
     color: #fff;
     text-decoration: none;
+    font-weight: 200;
+    letter-spacing: 0.3px;
     transition: opacity 0.2s;
 
     &:hover {
       opacity: 0.8;
+    }
+  }
+
+  .topbar-dropdown {
+    position: relative;
+    cursor: pointer;
+
+    > span {
+      color: #fff;
+      font-weight: 200;
+      letter-spacing: 0.3px;
+      transition: opacity 0.2s;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+
+    &:hover > .topbar-dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+  }
+
+  .topbar-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    padding: 0.5rem 0;
+    min-width: 180px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    transition: all 0.2s ease;
+    z-index: 1000;
+
+    a {
+      display: block;
+      padding: 0.5rem 1.2rem;
+      color: #58595b;
+      font-size: 0.82rem;
+      font-weight: 400;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background-color 0.15s;
+
+      &:hover {
+        background-color: #f5f5f5;
+        color: $brand-color;
+      }
     }
   }
 
@@ -41,8 +104,8 @@ $brand-light: #e8f4f5;
 
 .top-socials {
   display: flex;
-  gap: 0.7rem;
-  margin-left: 1.2rem;
+  gap: 1.2rem;
+  margin-left: 2rem;
 
   a {
     color: #fff;
@@ -53,8 +116,8 @@ $brand-light: #e8f4f5;
     }
 
     svg {
-      width: 14px;
-      height: 14px;
+      width: 17px;
+      height: 17px;
     }
   }
 }
@@ -64,45 +127,104 @@ $brand-light: #e8f4f5;
 // =============================================
 .main-navbar {
   background-color: #fff;
-  padding: 0.6rem 0;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  position: relative;
+  z-index: 100;
+
+  > .container {
+    max-width: 100%;
+    padding: 0;
+  }
 }
 
 .navbar-logo {
-  height: 42px;
+  height: 52px;
   width: auto;
 }
 
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 2rem;
 
-  a {
-    color: #333;
+  > a,
+  .nav-item-dropdown > a {
+    color: #58595b;
     text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 500;
-    transition: color 0.2s;
+    font-size: 0.92rem;
+    font-weight: 400;
+    padding: 0.45rem 0.9rem;
+    border-radius: 8px;
+    transition: all 0.2s;
+    display: inline-block;
 
     &:hover {
-      color: $brand-color;
+      background-color: #e8e8e8;
+      color: $brand-dark;
     }
   }
 
   .nav-btn {
-    border: 2px solid #333;
-    border-radius: 4px;
-    padding: 0.3rem 1rem;
+    background-color: #e0e0e0;
+    color: #333 !important;
+    font-weight: 600;
+    border-radius: 6px;
+    padding: 0.4rem 1rem !important;
 
     &:hover {
-      border-color: $brand-color;
-      color: $brand-color;
+      background-color: #d4d4d4;
+      color: #333 !important;
     }
   }
 
   @media (max-width: 768px) {
     display: none;
+  }
+}
+
+.nav-item-dropdown {
+  position: relative;
+
+  &:hover > .nav-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  border-radius: 0;
+  border-right: 3px solid #e0e0e0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 1rem 0;
+  min-width: 200px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: all 0.2s ease;
+  z-index: 1000;
+
+  a {
+    display: block;
+    padding: 0.55rem 1.4rem;
+    color: #58595b;
+    font-size: 0.82rem;
+    font-weight: 300;
+    text-decoration: none;
+    white-space: normal;
+    line-height: 1.4;
+    transition: color 0.15s;
+    border-radius: 0 !important;
+    background: none !important;
+
+    &:hover {
+      color: $brand-color;
+    }
   }
 }
 
@@ -122,17 +244,18 @@ $brand-light: #e8f4f5;
 .hero-title {
   color: #fff;
   font-weight: 700;
-  font-size: 3rem;
+  font-size: 3.5rem;
   line-height: 1;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   margin: 0;
+  text-transform: uppercase;
 
   @media (min-width: 768px) {
-    font-size: 5rem;
+    font-size: 6rem;
   }
 
   @media (min-width: 1200px) {
-    font-size: 6rem;
+    font-size: 8rem;
   }
 }
 
@@ -140,10 +263,14 @@ $brand-light: #e8f4f5;
 // BANNER EXPERIENCIAS
 // =============================================
 .banner-experiencias {
-  max-width: 680px;
+  max-width: 100%;
   margin: 2rem auto;
   padding: 0 1rem;
   overflow: hidden;
+
+  @media (min-width: 768px) {
+    padding: 0 12%;
+  }
 
   .banner-img {
     width: 100%;
@@ -157,16 +284,17 @@ $brand-light: #e8f4f5;
 // =============================================
 .info-section {
   padding: 2.5rem 1rem;
-  background-color: #fff;
+  background-color: #f2f2f2;
 
   @media (min-width: 768px) {
-    padding: 3.5rem 2rem;
+    padding: 3.5rem 12%;
   }
 }
 
 .info-card {
-  max-width: 680px;
+  max-width: 100%;
   margin: 0 auto;
+  text-align: center;
 }
 
 .info-logo {
@@ -178,7 +306,7 @@ $brand-light: #e8f4f5;
 .info-title {
   font-size: 1.6rem;
   font-weight: 700;
-  color: #12a8b8;
+  color: $brand-dark;
   margin-bottom: 1rem;
 
   @media (min-width: 768px) {
@@ -211,6 +339,7 @@ $brand-light: #e8f4f5;
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
+  justify-content: center;
 
   .store-btn {
     display: block;
@@ -228,7 +357,45 @@ $brand-light: #e8f4f5;
 .catalog-content {
   flex: 1;
   padding: 2rem 0 3rem;
-  background-color: #f9f9f9;
+  background-color: #fff;
+}
+
+// =============================================
+// SEARCH
+// =============================================
+.search-bar {
+  position: relative;
+  max-width: 400px;
+  margin: 0 auto 1.2rem;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: #999;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.6rem 1rem 0.6rem 2.8rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 24px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.2s;
+
+  &::placeholder {
+    color: #aaa;
+  }
+
+  &:focus {
+    border-color: $brand-color;
+  }
 }
 
 // =============================================
@@ -287,6 +454,8 @@ $brand-light: #e8f4f5;
 
   .card-body {
     padding: 1.2rem 0.8rem;
+    background-color: #f2f2f2;
+    border-radius: 0 0 14px 14px;
   }
 
   .card-title {
@@ -298,40 +467,48 @@ $brand-light: #e8f4f5;
 }
 
 .logo-wrapper {
-  width: 80px;
-  height: 80px;
+  width: 100%;
+  aspect-ratio: 16 / 9;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 0.6rem;
+  overflow: hidden;
+  border-radius: 14px 14px 0 0;
+  background-color: #fff;
 }
 
 .benefit-logo {
-  max-width: 80px;
-  max-height: 80px;
-  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .logo-placeholder {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
+  width: 100%;
+  height: 100%;
   background-color: $brand-color;
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: 700;
 }
 
+.badge-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  justify-content: center;
+}
+
 .badge-category {
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 500;
-  color: $brand-color;
-  background-color: $brand-light;
-  padding: 0.25rem 0.6rem;
+  padding: 0.2rem 0.55rem;
   border-radius: 12px;
+  color: #fff;
+  background-color: $brand-color;
 }
 
 // =============================================
