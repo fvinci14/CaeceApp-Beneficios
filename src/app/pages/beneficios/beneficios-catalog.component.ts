@@ -1,20 +1,23 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, inject } from '@angular/core';
+import { AfterViewInit, Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { FirestoreService } from '../../services/firestore.service';
 import { Place, ICategory } from '../../interfaces/benefit.interface';
 
 @Component({
   selector: 'app-beneficios-catalog',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './beneficios-catalog.component.html',
   styleUrls: ['./beneficios-catalog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BeneficiosCatalogComponent implements OnInit {
+export class BeneficiosCatalogComponent implements OnInit, AfterViewInit {
   private firestoreService = inject(FirestoreService);
   private cdr = inject(ChangeDetectorRef);
+
+  @ViewChild('statsSection') statsSection?: ElementRef<HTMLElement>;
 
   categories: ICategory[] = [];
   benefits: Place[] = [];
@@ -22,8 +25,10 @@ export class BeneficiosCatalogComponent implements OnInit {
   searchTerm = '';
   loading = true;
   categoryMap: Record<string, string> = {};
-  showFormModal = false;
 
+  readonly statsTargets = { community: 4500, activeUsers: 2500 };
+  statsDisplay = { community: 0, activeUsers: 0, commerces: 0 };
+  private statsAnimated = false;
   get filteredBenefits(): Place[] {
     let results = this.benefits;
 
@@ -92,5 +97,46 @@ export class BeneficiosCatalogComponent implements OnInit {
 
   getCategoryIndex(uid: string): number {
     return this.categories.findIndex(c => c.uid === uid);
+  }
+
+  ngAfterViewInit() {
+    if (!this.statsSection || !('IntersectionObserver' in window)) {
+      this.runStatsAnimation();
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !this.statsAnimated) {
+          this.runStatsAnimation();
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(this.statsSection.nativeElement);
+  }
+
+  private runStatsAnimation() {
+    if (this.statsAnimated) return;
+    this.statsAnimated = true;
+    const duration = 1800;
+    const start = performance.now();
+    const targets = {
+      community: this.statsTargets.community,
+      activeUsers: this.statsTargets.activeUsers,
+      commerces: this.benefits.length,
+    };
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / duration);
+      const ease = 1 - Math.pow(1 - t, 3);
+      this.statsDisplay = {
+        community: Math.floor(targets.community * ease),
+        activeUsers: Math.floor(targets.activeUsers * ease),
+        commerces: Math.floor(targets.commerces * ease),
+      };
+      this.cdr.markForCheck();
+      if (t < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
   }
 }

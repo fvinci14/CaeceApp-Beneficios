@@ -9,6 +9,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'sumar-comercio',
+    loadComponent: () =>
+      import('./pages/sumar-comercio/sumar-comercio.component').then(
+        m => m.SumarComercioComponent
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },
