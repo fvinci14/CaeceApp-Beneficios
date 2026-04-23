@@ -276,18 +276,10 @@
           </table>
         }
 
-        <!-- Horario y Frecuencia -->
-        <div class="row mt-4">
-          <div class="col-md-8 form-group">
-            <label for="schedule">Horario de atención</label>
-            <small class="field-hint" aria-hidden="true">&nbsp;</small>
-            <input id="schedule" type="text" class="form-control" formControlName="schedule" placeholder="Ej: Lunes a Viernes de 9 a 18hs" />
-          </div>
-          <div class="col-md-4 form-group">
-            <label for="frequency">Frecuencia (días)</label>
-            <small class="field-hint">0 = sin límite.</small>
-            <input id="frequency" type="number" class="form-control" formControlName="frequency" min="0" />
-          </div>
+        <!-- Horario -->
+        <div class="form-group mt-4">
+          <label for="schedule">Horario de atención</label>
+          <input id="schedule" type="text" class="form-control" formControlName="schedule" placeholder="Ej: Lunes a Viernes de 9 a 18hs" />
         </div>
 
         <!-- Descripcion -->
@@ -317,12 +309,28 @@
             <input id="contactName" type="text" class="form-control" formControlName="contactName" [class.is-invalid]="isFieldInvalid('contactName')" />
           </div>
           <div class="col-md-4 form-group">
+            <label for="contactLastName">Apellido <span class="req">*</span></label>
+            <input id="contactLastName" type="text" class="form-control" formControlName="contactLastName" [class.is-invalid]="isFieldInvalid('contactLastName')" />
+          </div>
+          <div class="col-md-4 form-group">
+            <label for="contactDni">DNI <span class="req">*</span></label>
+            <input id="contactDni" type="text" inputmode="numeric" class="form-control" formControlName="contactDni" placeholder="Sin puntos" maxlength="8" (input)="onNumericInput($event, 'contactDni')" [class.is-invalid]="isFieldInvalid('contactDni')" />
+            @if (isFieldInvalid('contactDni')) {
+              <div class="invalid-feedback">DNI requerido (7 u 8 dígitos numéricos).</div>
+            }
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 form-group">
             <label for="contactEmail">Email <span class="req">*</span></label>
             <input id="contactEmail" type="email" class="form-control" formControlName="contactEmail" [class.is-invalid]="isFieldInvalid('contactEmail')" />
           </div>
-          <div class="col-md-4 form-group">
+          <div class="col-md-6 form-group">
             <label for="contactPhone">Teléfono <span class="req">*</span></label>
-            <input id="contactPhone" type="tel" class="form-control" formControlName="contactPhone" [class.is-invalid]="isFieldInvalid('contactPhone')" />
+            <input id="contactPhone" type="text" inputmode="numeric" class="form-control" formControlName="contactPhone" placeholder="Solo números" (input)="onNumericInput($event, 'contactPhone')" [class.is-invalid]="isFieldInvalid('contactPhone')" />
+            @if (isFieldInvalid('contactPhone')) {
+              <div class="invalid-feedback">Teléfono requerido (solo números).</div>
+            }
           </div>
         </div>
 
