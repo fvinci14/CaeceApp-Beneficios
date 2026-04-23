@@ -364,6 +364,15 @@ export class SumarComercioComponent implements OnInit {
     return !!(control?.invalid && control?.touched);
   }
 
+  onNumericInput(event: Event, fieldName: string) {
+    const input = event.target as HTMLInputElement;
+    const numericValue = input.value.replace(/\D/g, '');
+    if (input.value !== numericValue) {
+      input.value = numericValue;
+      this.form.get(fieldName)?.setValue(numericValue, { emitEvent: false });
+    }
+  }
+
   private getRecaptchaToken(): Promise<string> {
     return new Promise((resolve, reject) => {
       const siteKey = (window as any).__RECAPTCHA_SITE_KEY__;

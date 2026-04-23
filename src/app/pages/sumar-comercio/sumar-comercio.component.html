@@ -314,7 +314,7 @@
           </div>
           <div class="col-md-4 form-group">
             <label for="contactDni">DNI <span class="req">*</span></label>
-            <input id="contactDni" type="text" inputmode="numeric" class="form-control" formControlName="contactDni" placeholder="Sin puntos" [class.is-invalid]="isFieldInvalid('contactDni')" />
+            <input id="contactDni" type="text" inputmode="numeric" class="form-control" formControlName="contactDni" placeholder="Sin puntos" maxlength="8" (input)="onNumericInput($event, 'contactDni')" [class.is-invalid]="isFieldInvalid('contactDni')" />
             @if (isFieldInvalid('contactDni')) {
               <div class="invalid-feedback">DNI requerido (7 u 8 dígitos numéricos).</div>
             }
@@ -327,7 +327,7 @@
           </div>
           <div class="col-md-6 form-group">
             <label for="contactPhone">Teléfono <span class="req">*</span></label>
-            <input id="contactPhone" type="text" inputmode="numeric" class="form-control" formControlName="contactPhone" placeholder="Solo números" [class.is-invalid]="isFieldInvalid('contactPhone')" />
+            <input id="contactPhone" type="text" inputmode="numeric" class="form-control" formControlName="contactPhone" placeholder="Solo números" (input)="onNumericInput($event, 'contactPhone')" [class.is-invalid]="isFieldInvalid('contactPhone')" />
             @if (isFieldInvalid('contactPhone')) {
               <div class="invalid-feedback">Teléfono requerido (solo números).</div>
             }
