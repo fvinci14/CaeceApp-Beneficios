@@ -132,8 +132,8 @@
       </p>
 
       <p class="info-cta">
-        @if (benefits.length > 0) {
-          ¡Descargá la app y activá hoy mismo los {{ benefits.length }} beneficios que pensamos para vos!
+        @if (items.length > 0) {
+          ¡Descargá la app y activá hoy mismo los {{ items.length }} beneficios que pensamos para vos!
         } @else {
           ¡Descargá la app y activá hoy mismo todos los beneficios que pensamos para vos!
         }
@@ -206,34 +206,37 @@
       </div>
 
       <!-- Grid -->
-      @if (filteredBenefits.length === 0) {
+      @if (filteredItems.length === 0) {
         <div class="text-center py-5 text-muted">
           <p>No se encontraron beneficios en esta categoría.</p>
         </div>
       } @else {
         <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
-          @for (benefit of filteredBenefits; track benefit.id) {
+          @for (item of filteredItems; track item.id) {
             <div class="col">
               <div class="card benefit-card h-100 text-center">
                 <div class="logo-wrapper">
-                  @if (benefit.logo) {
+                  @if (item.logo) {
                     <img
-                      [src]="benefit.logo"
-                      [alt]="benefit.name"
+                      [src]="item.logo"
+                      [alt]="item.name"
                       class="benefit-logo"
                       loading="lazy" />
                   } @else {
                     <div class="logo-placeholder">
-                      <span>{{ benefit.name.charAt(0) }}</span>
+                      <span>{{ item.name.charAt(0) }}</span>
                     </div>
                   }
                 </div>
                 <div class="card-body d-flex flex-column align-items-center">
-                  <h6 class="card-title">{{ benefit.name }}</h6>
-                  <p class="card-text text-muted small mb-1">{{ benefit.discount }}</p>
-                  @if (benefit.categories?.length) {
+                  <h6 class="card-title">{{ item.name }}</h6>
+                  <p class="card-text text-muted small mb-1">{{ item.discount }}</p>
+                  <p class="card-branches small mb-1">
+                    {{ item.branchCount === 1 ? '1 sucursal' : item.branchCount + ' sucursales' }}
+                  </p>
+                  @if (item.categories.length) {
                     <div class="badge-wrapper mt-auto">
-                      @for (catId of benefit.categories; track catId) {
+                      @for (catId of item.categories; track catId) {
                         @if (categoryMap[catId]) {
                           <span class="badge-category" [attr.data-index]="getCategoryIndex(catId) % 7">
                             {{ categoryMap[catId] }}
@@ -337,7 +340,7 @@
           ¿Puedo editar o dar de baja mi beneficio más adelante?
           <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </summary>
-        <p class="faq-answer">Sí, podés escribirnos en cualquier momento a <a href="mailto:bienestarestudiantil&#64;ucaecemdp.edu.ar">bienestarestudiantil&#64;ucaecemdp.edu.ar</a> y actualizamos los datos o damos de baja tu comercio.</p>
+        <p class="faq-answer">Sí, podés escribirnos en cualquier momento a <a href="mailto:beneficios&#64;ucaecemdp.edu.ar">beneficios&#64;ucaecemdp.edu.ar</a> y actualizamos los datos o damos de baja tu comercio.</p>
       </details>
     </div>
   </div>

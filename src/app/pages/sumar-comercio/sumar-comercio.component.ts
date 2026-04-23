@@ -76,14 +76,15 @@ export class SumarComercioComponent implements OnInit {
   private createForm() {
     this.form = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(100)]],
-      frequency: [0, [Validators.required, Validators.min(0)]],
       schedule: ['', Validators.maxLength(100)],
       description: ['', Validators.maxLength(500)],
       instagram: ['', [Validators.pattern(URL_PATTERN), Validators.maxLength(200)]],
       whatsapp: ['', [Validators.pattern(URL_PATTERN), Validators.maxLength(200)]],
       contactName: ['', Validators.required],
+      contactLastName: ['', Validators.required],
+      contactDni: ['', [Validators.required, Validators.pattern(/^\d{7,8}$/)]],
       contactEmail: ['', [Validators.required, Validators.email]],
-      contactPhone: ['', Validators.required],
+      contactPhone: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
     });
   }
 
@@ -335,10 +336,11 @@ export class SumarComercioComponent implements OnInit {
         schedule: formValues.schedule || undefined,
         instagram: formValues.instagram || undefined,
         whatsapp: formValues.whatsapp || undefined,
-        frequency: formValues.frequency,
         subBenefits: subBenefitsPayload,
         sucursales: this.sucursales as any,
         contactName: formValues.contactName,
+        contactLastName: formValues.contactLastName,
+        contactDni: formValues.contactDni,
         contactEmail: formValues.contactEmail,
         contactPhone: formValues.contactPhone,
         recaptchaToken,
@@ -360,6 +362,15 @@ export class SumarComercioComponent implements OnInit {
   isFieldInvalid(name: string): boolean {
     const control = this.form.get(name);
     return !!(control?.invalid && control?.touched);
+  }
+
+  onNumericInput(event: Event, fieldName: string) {
+    const input = event.target as HTMLInputElement;
+    const numericValue = input.value.replace(/\D/g, '');
+    if (input.value !== numericValue) {
+      input.value = numericValue;
+      this.form.get(fieldName)?.setValue(numericValue, { emitEvent: false });
+    }
   }
 
   private getRecaptchaToken(): Promise<string> {

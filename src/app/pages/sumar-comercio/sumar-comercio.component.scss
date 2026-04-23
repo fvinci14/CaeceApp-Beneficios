@@ -249,6 +249,12 @@ $brand-light: #e8f4f5;
   margin-bottom: 2rem;
   h1 { font-size: 1.6rem; font-weight: 700; color: $brand-dark; margin-bottom: 0.5rem; }
   p { color: #666; font-size: 0.9rem; line-height: 1.5; }
+  .form-header-contact {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    a { color: $brand-color; text-decoration: none; font-weight: 500; }
+    a:hover { text-decoration: underline; }
+  }
 }
 
 .section-title {
