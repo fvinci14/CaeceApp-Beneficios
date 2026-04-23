@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { FirestoreService } from '../../services/firestore.service';
-import { Place, ICategory } from '../../interfaces/benefit.interface';
+import { Place, ICategory, Comercio, CatalogItem } from '../../interfaces/benefit.interface';
 
 @Component({
   selector: 'app-beneficios-catalog',
@@ -20,7 +20,7 @@ export class BeneficiosCatalogComponent implements OnInit, AfterViewInit {
   @ViewChild('statsSection') statsSection?: ElementRef<HTMLElement>;
 
   categories: ICategory[] = [];
-  benefits: Place[] = [];
+  items: CatalogItem[] = [];
   selectedCategories: Set<string> = new Set();
   searchTerm = '';
   loading = true;
@@ -29,20 +29,21 @@ export class BeneficiosCatalogComponent implements OnInit, AfterViewInit {
   readonly statsTargets = { community: 4500, activeUsers: 2500 };
   statsDisplay = { community: 0, activeUsers: 0, commerces: 0 };
   private statsAnimated = false;
-  get filteredBenefits(): Place[] {
-    let results = this.benefits;
+
+  get filteredItems(): CatalogItem[] {
+    let results = this.items;
 
     if (this.selectedCategories.size > 0) {
-      results = results.filter(b =>
-        b.categories?.some(c => this.selectedCategories.has(c))
+      results = results.filter(i =>
+        i.categories?.some(c => this.selectedCategories.has(c))
       );
     }
 
     if (this.searchTerm.trim()) {
       const term = this.searchTerm.toLowerCase().trim();
-      results = results.filter(b =>
-        b.name.toLowerCase().includes(term) ||
-        b.discount.toLowerCase().includes(term)
+      results = results.filter(i =>
+        i.name.toLowerCase().includes(term) ||
+        i.discount.toLowerCase().includes(term)
       );
     }
 
@@ -51,14 +52,17 @@ export class BeneficiosCatalogComponent implements OnInit, AfterViewInit {
 
   async ngOnInit() {
     try {
-      const [allCategories, activeBenefits] = await Promise.all([
+      const [allCategories, activeBenefits, comercios] = await Promise.all([
         this.firestoreService.getCollection<ICategory>('categories'),
         this.firestoreService.queryCollection<Place>('benefits', [
           this.firestoreService.createWhereConstraint('isActive', '==', true),
         ]),
+        this.firestoreService.getCollection<Comercio>('comercios'),
       ]);
 
-      const usedCategoryIds = new Set(activeBenefits.flatMap(b => b.categories || []));
+      this.items = this.buildCatalogItems(activeBenefits, comercios);
+
+      const usedCategoryIds = new Set(this.items.flatMap(i => i.categories || []));
       this.categories = allCategories.filter(c => c.isActive && usedCategoryIds.has(c.uid));
       this.categoryMap = this.categories.reduce(
         (map, cat) => {
@@ -67,14 +71,45 @@ export class BeneficiosCatalogComponent implements OnInit, AfterViewInit {
         },
         {} as Record<string, string>
       );
-
-      this.benefits = activeBenefits.sort((a, b) => a.name.localeCompare(b.name));
     } catch (error) {
       console.error('Error cargando beneficios:', error);
     } finally {
       this.loading = false;
       this.cdr.markForCheck();
     }
+  }
+
+  private buildCatalogItems(activeBenefits: Place[], comercios: Comercio[]): CatalogItem[] {
+    const activeBenefitsMap = new Map(activeBenefits.map(b => [b.id, b]));
+    const assignedIds = new Set(comercios.flatMap(c => c.benefitIds || []));
+
+    const grouped: CatalogItem[] = comercios
+      .map(c => {
+        const activeBranches = (c.benefitIds || []).filter(id => activeBenefitsMap.has(id));
+        if (activeBranches.length === 0) return null;
+        return {
+          id: `c:${c.id}`,
+          name: c.name,
+          logo: c.logo,
+          discount: c.discount,
+          categories: c.categories || [],
+          branchCount: activeBranches.length,
+        };
+      })
+      .filter((x): x is CatalogItem => x !== null);
+
+    const standalone: CatalogItem[] = activeBenefits
+      .filter(b => !assignedIds.has(b.id))
+      .map(b => ({
+        id: `b:${b.id}`,
+        name: b.name,
+        logo: b.logo,
+        discount: b.discount,
+        categories: b.categories || [],
+        branchCount: 1,
+      }));
+
+    return [...grouped, ...standalone].sort((a, b) => a.name.localeCompare(b.name));
   }
 
   toggleCategory(uid: string) {
@@ -124,7 +159,7 @@ export class BeneficiosCatalogComponent implements OnInit, AfterViewInit {
     const targets = {
       community: this.statsTargets.community,
       activeUsers: this.statsTargets.activeUsers,
-      commerces: this.benefits.length,
+      commerces: this.items.length,
     };
     const tick = (now: number) => {
       const t = Math.min(1, (now - start) / duration);

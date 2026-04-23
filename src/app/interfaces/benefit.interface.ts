@@ -35,3 +35,29 @@ export interface ICategory {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface Comercio {
+  id: string;
+  name: string;
+  logo: string;
+  discount: string;
+  categories: string[];
+  description: string;
+  schedule: string;
+  instagram: string;
+  whatsapp: string;
+  frequency: number;
+  subBenefits?: SubBenefit[];
+  benefitIds: string[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface CatalogItem {
+  id: string;
+  name: string;
+  logo: string;
+  discount: string;
+  categories: string[];
+  branchCount: number;
+}
