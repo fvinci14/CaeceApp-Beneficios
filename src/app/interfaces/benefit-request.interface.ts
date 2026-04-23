@@ -19,10 +19,11 @@ export interface SubmitBenefitRequestInput {
   schedule?: string;
   instagram?: string;
   whatsapp?: string;
-  frequency?: number;
   subBenefits?: BenefitRequestSubBenefit[];
   sucursales: BenefitRequestSucursal[];
   contactName: string;
+  contactLastName: string;
+  contactDni: string;
   contactEmail: string;
   contactPhone: string;
   recaptchaToken: string;
