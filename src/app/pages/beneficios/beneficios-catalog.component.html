@@ -1,3 +1,4 @@
+<header class="site-header" [class.is-hidden]="headerHidden">
 <!-- Top Bar -->
 <div class="top-bar">
   <div class="container d-flex justify-content-end align-items-center">
@@ -38,6 +39,11 @@
     <a href="https://ucaecemdp.edu.ar/desarrollo/" rel="noopener noreferrer" class="navbar-brand">
       <img src="assets/images/logo.png" alt="Universidad CAECE" class="navbar-logo" />
     </a>
+    <button type="button" class="navbar-toggle" (click)="toggleMobileMenu()" aria-label="Abrir menú">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
     <div class="navbar-links">
       <div class="nav-item-dropdown">
         <a href="https://ucaecemdp.edu.ar/desarrollo/ingreso/" rel="noopener noreferrer">Ingresantes</a>
@@ -91,6 +97,64 @@
     </div>
   </div>
 </nav>
+</header>
+
+<!-- Mobile Drawer -->
+@if (mobileMenuOpen) {
+  <div class="mobile-menu-backdrop" (click)="closeMobileMenu()">
+    <aside class="mobile-menu" (click)="$event.stopPropagation()">
+      <div class="mobile-menu-header">
+        <img src="assets/images/logo.png" alt="Universidad CAECE" class="mobile-menu-logo" />
+        <button type="button" class="mobile-menu-close" (click)="closeMobileMenu()" aria-label="Cerrar menú">×</button>
+      </div>
+      <nav class="mobile-menu-nav">
+        @for (section of mobileMenuSections; track section.id) {
+          <button
+            type="button"
+            class="mobile-menu-section-toggle"
+            [class.expanded]="expandedMobileSection === section.id"
+            (click)="toggleMobileSection(section.id)">
+            {{ section.label }}
+            <svg class="mobile-menu-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          @if (expandedMobileSection === section.id) {
+            <div class="mobile-menu-sublist">
+              @for (item of section.items; track item.href) {
+                <a [href]="item.href" rel="noopener noreferrer" (click)="closeMobileMenu()">{{ item.label }}</a>
+              }
+            </div>
+          }
+        }
+        <a class="mobile-menu-section-link" [href]="mobileMenuTopLink.href" rel="noopener noreferrer" (click)="closeMobileMenu()">
+          {{ mobileMenuTopLink.label }}
+        </a>
+        <div class="mobile-menu-divider"></div>
+        @for (extra of mobileMenuExtras; track extra.href) {
+          <a class="mobile-menu-link" [href]="extra.href" rel="noopener noreferrer" (click)="closeMobileMenu()">{{ extra.label }}</a>
+        }
+        <button
+          type="button"
+          class="mobile-menu-link mobile-menu-link-toggle"
+          [class.expanded]="expandedMobileSection === mobileMenuLoginSection.id"
+          (click)="toggleMobileSection(mobileMenuLoginSection.id)">
+          {{ mobileMenuLoginSection.label }}
+          <svg class="mobile-menu-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+        @if (expandedMobileSection === mobileMenuLoginSection.id) {
+          <div class="mobile-menu-sublist mobile-menu-sublist-small">
+            @for (item of mobileMenuLoginSection.items; track item.href) {
+              <a [href]="item.href" rel="noopener noreferrer" (click)="closeMobileMenu()">{{ item.label }}</a>
+            }
+          </div>
+        }
+      </nav>
+    </aside>
+  </div>
+}
 
 <!-- Hero Banner -->
 <section class="hero-banner">
@@ -176,15 +240,25 @@
 
     @if (!loading) {
       <!-- Search -->
-      <div class="search-bar">
-        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-        </svg>
-        <input
-          type="text"
-          class="search-input"
-          placeholder="Buscar beneficio..."
-          [(ngModel)]="searchTerm" />
+      <div class="search-row">
+        <div class="search-bar">
+          <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Buscar beneficio..."
+            [(ngModel)]="searchTerm" />
+        </div>
+        @if (mapPins.length > 0) {
+          <button type="button" class="map-btn" (click)="openMap()" title="Ver mapa de comercios" aria-label="Ver mapa de comercios">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          </button>
+        }
       </div>
 
       <!-- Filters -->
@@ -200,6 +274,9 @@
             class="btn btn-filter"
             [class.active]="selectedCategories.has(cat.uid)"
             (click)="toggleCategory(cat.uid)">
+            @if (cat.icon) {
+              <img [src]="cat.icon" [alt]="cat.name" class="filter-icon" loading="lazy" />
+            }
             {{ cat.name }}
           </button>
         }
@@ -229,22 +306,40 @@
                   }
                 </div>
                 <div class="card-body d-flex flex-column align-items-center">
-                  <h6 class="card-title">{{ item.name }}</h6>
-                  <p class="card-text text-muted small mb-1">{{ item.discount }}</p>
-                  <p class="card-branches small mb-1">
-                    {{ item.branchCount === 1 ? '1 sucursal' : item.branchCount + ' sucursales' }}
-                  </p>
                   @if (item.categories.length) {
-                    <div class="badge-wrapper mt-auto">
+                    <div class="category-icons mb-2">
                       @for (catId of item.categories; track catId) {
                         @if (categoryMap[catId]) {
-                          <span class="badge-category" [attr.data-index]="getCategoryIndex(catId) % 7">
-                            {{ categoryMap[catId] }}
-                          </span>
+                          @if (categoryIconMap[catId]) {
+                            <img
+                              [src]="categoryIconMap[catId]"
+                              [alt]="categoryMap[catId]"
+                              [title]="categoryMap[catId]"
+                              class="category-icon"
+                              loading="lazy" />
+                          } @else {
+                            <span class="badge-category" [attr.data-index]="getCategoryIndex(catId) % 7">
+                              {{ categoryMap[catId] }}
+                            </span>
+                          }
                         }
                       }
                     </div>
                   }
+                  <h6 class="card-title">{{ item.name }}</h6>
+                  <div class="discount-chips mb-1">
+                    @if (item.subBenefits && item.subBenefits.length > 1) {
+                      @for (sb of item.subBenefits.slice(0, 3); track sb.id) {
+                        <span class="discount-chip" [title]="sb.discount">{{ sb.discount }}</span>
+                      }
+                      @if (item.subBenefits.length > 3) {
+                        <span class="discount-chip more">+{{ item.subBenefits.length - 3 }} más</span>
+                      }
+                    } @else {
+                      <span class="discount-chip" [title]="item.discount">{{ item.discount }}</span>
+                    }
+                  </div>
+
                 </div>
               </div>
             </div>
@@ -254,6 +349,19 @@
     }
   </div>
 </main>
+
+<!-- Map Modal -->
+@if (showMap) {
+  <div class="map-modal-backdrop" (click)="closeMap()">
+    <div class="map-modal" (click)="$event.stopPropagation()">
+      <div class="map-modal-header">
+        <h3>Comercios adheridos en Mar del Plata</h3>
+        <button type="button" class="map-modal-close" (click)="closeMap()" aria-label="Cerrar mapa">×</button>
+      </div>
+      <div #mapContainer class="map-canvas"></div>
+    </div>
+  </div>
+}
 
 <!-- CTA Comercios -->
 <section class="cta-banner">
