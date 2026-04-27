@@ -17,20 +17,18 @@ import {
   BenefitRequestSubBenefit,
   SubmitBenefitRequestInput,
 } from '../../interfaces/benefit-request.interface';
+import { SiteHeaderComponent } from '../../shared/site-header/site-header.component';
+import { SiteFooterComponent } from '../../shared/site-footer/site-footer.component';
 
 declare const grecaptcha: any;
 declare const google: any;
 
 const URL_PATTERN = '^https?://.*';
-const IMAGE_MAX_SIZE_KB = 500;
-const IMAGE_MIN_WIDTH = 600;
-const IMAGE_MIN_HEIGHT = 400;
-const IMAGE_ASPECT_RATIO = 1.5;
 
 @Component({
   selector: 'app-sumar-comercio',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, FormsModule, SiteHeaderComponent, SiteFooterComponent],
   templateUrl: './sumar-comercio.component.html',
   styleUrls: ['./sumar-comercio.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -58,7 +56,6 @@ export class SumarComercioComponent implements OnInit {
   // Sucursal modal
   showSucursalModal = false;
   editingSucursalIndex: number | null = null;
-  sucursalSuffix = '';
   sucursalAddress = '';
   sucursalLocation: { lat: number; lng: number } | null = null;
 
@@ -117,46 +114,92 @@ export class SumarComercioComponent implements OnInit {
 
     this.fileError = null;
 
-    // Validar tipo
-    if (!['image/jpeg', 'image/jpg'].includes(file.type)) {
-      this.fileError = 'Solo se permiten imágenes JPG/JPEG.';
+    if (!file.type.startsWith('image/')) {
+      this.fileError = 'El archivo debe ser una imagen.';
+      input.value = '';
       return;
     }
 
-    // Validar tamaño
-    if (file.size > IMAGE_MAX_SIZE_KB * 1024) {
-      this.fileError = `La imagen no debe superar los ${IMAGE_MAX_SIZE_KB}KB.`;
-      return;
-    }
-
-    // Validar dimensiones
-    const img = await this.loadImage(file);
-    if (img.width < IMAGE_MIN_WIDTH || img.height < IMAGE_MIN_HEIGHT) {
-      this.fileError = `La imagen debe ser de al menos ${IMAGE_MIN_WIDTH}x${IMAGE_MIN_HEIGHT}px.`;
-      return;
-    }
-
-    const ratio = img.width / img.height;
-    if (Math.abs(ratio - IMAGE_ASPECT_RATIO) > 0.15) {
-      this.fileError = 'La imagen debe tener una relación de aspecto 3:2.';
-      return;
-    }
-
-    // Convertir a base64
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.logoBase64 = reader.result as string;
-      this.logoPreview = this.logoBase64;
+    try {
+      const processed = await this.processLogo(file);
+      this.logoBase64 = processed;
+      this.logoPreview = processed;
+    } catch (err) {
+      console.error('Error procesando logo:', err);
+      this.fileError = 'No se pudo procesar la imagen. Probá con otro formato.';
+    } finally {
+      input.value = '';
       this.cdr.markForCheck();
-    };
-    reader.readAsDataURL(file);
+    }
+  }
+
+  private async processLogo(file: File): Promise<string> {
+    const TARGET_W = 600;
+    const TARGET_H = 400;
+
+    const img = await this.loadImage(file);
+
+    const sourceCanvas = document.createElement('canvas');
+    sourceCanvas.width = img.width;
+    sourceCanvas.height = img.height;
+    const sourceCtx = sourceCanvas.getContext('2d');
+    if (!sourceCtx) throw new Error('Canvas 2D context no disponible');
+    sourceCtx.drawImage(img, 0, 0);
+
+    const bgColor = this.detectBgColor(sourceCtx, img.width, img.height);
+
+    const scale = Math.min(TARGET_W / img.width, TARGET_H / img.height);
+    const drawW = img.width * scale;
+    const drawH = img.height * scale;
+    const drawX = (TARGET_W - drawW) / 2;
+    const drawY = (TARGET_H - drawH) / 2;
+
+    const canvas = document.createElement('canvas');
+    canvas.width = TARGET_W;
+    canvas.height = TARGET_H;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) throw new Error('Canvas 2D context no disponible');
+    ctx.fillStyle = bgColor;
+    ctx.fillRect(0, 0, TARGET_W, TARGET_H);
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(img, drawX, drawY, drawW, drawH);
+
+    return canvas.toDataURL('image/jpeg', 0.9);
+  }
+
+  private detectBgColor(ctx: CanvasRenderingContext2D, width: number, height: number): string {
+    const corners: [number, number][] = [
+      [0, 0],
+      [width - 1, 0],
+      [0, height - 1],
+      [width - 1, height - 1],
+    ];
+    let r = 0, g = 0, b = 0, count = 0;
+    for (const [x, y] of corners) {
+      const px = ctx.getImageData(x, y, 1, 1).data;
+      if (px[3] < 128) continue;
+      r += px[0];
+      g += px[1];
+      b += px[2];
+      count++;
+    }
+    if (count === 0) return '#ffffff';
+    return `rgb(${Math.round(r / count)}, ${Math.round(g / count)}, ${Math.round(b / count)})`;
   }
 
   private loadImage(file: File): Promise<HTMLImageElement> {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(file);
       const img = new Image();
-      img.onload = () => resolve(img);
-      img.src = URL.createObjectURL(file);
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+        resolve(img);
+      };
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        reject(new Error('No se pudo decodificar la imagen'));
+      };
+      img.src = url;
     });
   }
 
@@ -171,12 +214,10 @@ export class SumarComercioComponent implements OnInit {
   openSucursalModal(index?: number) {
     if (index !== undefined) {
       const s = this.sucursales[index];
-      this.sucursalSuffix = s.suffix;
       this.sucursalAddress = s.address;
       this.sucursalLocation = s.location;
       this.editingSucursalIndex = index;
     } else {
-      this.sucursalSuffix = '';
       this.sucursalAddress = '';
       this.sucursalLocation = null;
       this.editingSucursalIndex = null;
@@ -188,9 +229,10 @@ export class SumarComercioComponent implements OnInit {
   saveSucursal() {
     if (!this.sucursalAddress.trim()) return;
 
+    const address = this.sucursalAddress.trim();
     const sucursal: BenefitRequestSucursal = {
-      suffix: this.sucursalSuffix.trim(),
-      address: this.sucursalAddress.trim(),
+      suffix: this.deriveSucursalSuffix(address),
+      address,
       location: this.sucursalLocation,
     };
 
@@ -201,6 +243,14 @@ export class SumarComercioComponent implements OnInit {
     }
 
     this.showSucursalModal = false;
+  }
+
+  private deriveSucursalSuffix(address: string): string {
+    if (!address) return '';
+    const firstPart = address.split(',')[0].trim();
+    const stripped = firstPart.replace(/\s+\d+\s*[a-zA-Z]?\s*$/, '').trim();
+    if (!stripped) return '';
+    return `Suc. ${stripped}`;
   }
 
   removeSucursal(index: number) {
@@ -216,10 +266,17 @@ export class SumarComercioComponent implements OnInit {
       return;
     }
 
+    const mdpBounds = new google.maps.LatLngBounds(
+      new google.maps.LatLng(-38.20, -57.70),
+      new google.maps.LatLng(-37.85, -57.40),
+    );
+
     this.autocompleteInstance = new google.maps.places.Autocomplete(inputElement, {
       types: ['address'],
       componentRestrictions: { country: 'ar' },
       fields: ['formatted_address', 'geometry'],
+      bounds: mdpBounds,
+      strictBounds: false,
     });
 
     this.autocompleteInstance.addListener('place_changed', () => {
