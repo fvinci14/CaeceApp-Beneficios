@@ -1,0 +1,157 @@
+<header class="site-header" [class.is-hidden]="headerHidden">
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="container d-flex justify-content-end align-items-center">
+      <nav class="top-links">
+        <a href="https://campus.caece.edu.ar/login/index.php" rel="noopener noreferrer">Campus Virtual</a>
+        <a href="https://miucaece.caece.edu.ar/sigedu/Extranet/index.php" rel="noopener noreferrer">MIUCAECE Autogestión</a>
+        <div class="topbar-dropdown">
+          <span>Login SIGEDU</span>
+          <div class="topbar-dropdown-menu">
+            <a href="https://miucaece.caece.edu.ar/sigedu/Extranet/index.php" rel="noopener noreferrer">Acceso Docentes</a>
+            <a href="https://miucaece.caece.edu.ar/sigedu/Intranet/index.php" rel="noopener noreferrer">Acceso Staff</a>
+          </div>
+        </div>
+      </nav>
+      <div class="top-socials">
+        <a href="https://x.com/ucaecemdp" rel="noopener noreferrer" aria-label="X">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="https://www.facebook.com/ucaecemdp" rel="noopener noreferrer" aria-label="Facebook">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9.198 21.5h4v-8.01h3.604l.396-3.98h-4V7.5a1 1 0 011-1h3v-4h-3a5 5 0 00-5 5v2.01h-2l-.396 3.98h2.396z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/school/ucaecemdp/" rel="noopener noreferrer" aria-label="LinkedIn">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6.94 5a2 2 0 11-4 0 2 2 0 014 0zM3.5 8.5h3v12h-3zm5.5 0h3v1.7a4.5 4.5 0 013.3-1.7c2.4 0 4.2 1.6 4.2 4.8v7.2h-3v-6.5c0-1.7-.6-2.8-2-2.8s-2.5 1.2-2.5 2.8v6.5H9z"/></svg>
+        </a>
+        <a href="https://www.youtube.com/user/ucaecemdq" rel="noopener noreferrer" aria-label="YouTube">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M23 9.71a8.5 8.5 0 00-.91-4.13 2.92 2.92 0 00-1.72-1A78 78 0 0012 4.27a78 78 0 00-8.34.3 2.87 2.87 0 00-1.46.74c-.9.83-1 2.25-1.1 3.45a48.3 48.3 0 000 6.48 9.5 9.5 0 00.3 2 3.14 3.14 0 00.71 1.36 2.86 2.86 0 001.49.78 45.2 45.2 0 006.5.33c3.5.05 6.57 0 10.2-.46a2.9 2.9 0 001.53-.78 2.5 2.5 0 00.61-1 10.6 10.6 0 00.48-3.76 57 57 0 00-.02-3.8zM9.74 14.85V8.66l5.92 3.11c-1.66.88-3.97 2.1-5.92 3.08z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/ucaecemdp/" rel="noopener noreferrer" aria-label="Instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153a4.9 4.9 0 011.153 1.772c.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122s-.01 3.056-.06 4.122c-.05 1.065-.218 1.79-.465 2.428a4.9 4.9 0 01-1.153 1.772 4.9 4.9 0 01-1.772 1.153c-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06s-3.056-.01-4.122-.06c-1.065-.05-1.79-.218-2.428-.465a4.9 4.9 0 01-1.772-1.153 4.9 4.9 0 01-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12s.01-3.056.06-4.122c.05-1.066.217-1.79.465-2.428a4.9 4.9 0 011.153-1.772A4.9 4.9 0 015.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2zm0 1.802c-2.67 0-2.986.01-4.04.058-.976.045-1.505.207-1.858.344-.466.182-.8.398-1.15.748-.35.35-.566.684-.748 1.15-.137.353-.3.882-.344 1.857-.048 1.055-.058 1.37-.058 4.041 0 2.67.01 2.986.058 4.04.045.977.207 1.505.344 1.858.182.466.399.8.748 1.15.35.35.684.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058 2.67 0 2.987-.01 4.04-.058.977-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.684.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041 0-2.67-.01-2.986-.058-4.04-.045-.977-.207-1.505-.344-1.858a3.1 3.1 0 00-.748-1.15 3.1 3.1 0 00-1.15-.748c-.353-.137-.881-.3-1.857-.344-1.054-.048-1.37-.058-4.041-.058zm0 3.063a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 8.468a3.333 3.333 0 100-6.666 3.333 3.333 0 000 6.666zm6.538-8.671a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="main-navbar">
+    <div class="container d-flex justify-content-between align-items-center">
+      <a href="https://ucaecemdp.edu.ar/desarrollo/" rel="noopener noreferrer" class="navbar-brand">
+        <img src="assets/images/logo.png" alt="Universidad CAECE" class="navbar-logo" />
+      </a>
+      <button type="button" class="navbar-toggle" (click)="toggleMobileMenu()" aria-label="Abrir menú">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="navbar-links">
+        <div class="nav-item-dropdown">
+          <a href="https://ucaecemdp.edu.ar/desarrollo/ingreso/" rel="noopener noreferrer">Ingresantes</a>
+          <div class="nav-dropdown-menu">
+            <a href="https://ucaecemdp.edu.ar/desarrollo/informes/" rel="noopener noreferrer">Documentación requerida</a>
+            <a href="https://ucaecemdp.edu.ar/desarrollo/ingreso/" rel="noopener noreferrer">Ingreso</a>
+            <a href="https://ucaecemdp.edu.ar/desarrollo/curso-de-orientacion/" rel="noopener noreferrer">Ingreso Traductor Público</a>
+            <a href="https://miucaece.caece.edu.ar/sigedu/SCF/Aplicaciones/index_solicitud_admision.php" rel="noopener noreferrer">Inscripción online</a>
+          </div>
+        </div>
+        <div class="nav-item-dropdown">
+          <a href="https://ucaecemdp.edu.ar/desarrollo/carreras/" rel="noopener noreferrer">Carreras</a>
+          <div class="nav-dropdown-menu">
+            <a href="https://ucaecemdp.edu.ar/desarrollo/carreras/licenciatura-en-marketing/" rel="noopener noreferrer">Lic. en Marketing</a>
+            <a href="https://ucaecemdp.edu.ar/desarrollo/carreras/licenciatura-en-administracion-de-negocios/" rel="noopener noreferrer">Lic. en Administración de Negocios</a>
+            <a href="https://ucaecemdp.edu.ar/desarrollo/carreras/licenciatura-en-comercio-internacional/" rel="noopener noreferrer">Lic. en Comercio Internacional</a>
+            <a href="https://ucaecemdp.edu.ar/desarrollo/carreras/contador-publico/" rel="noopener noreferrer">Contador Público</a>
+            <a href="https://ucaecemdp.edu.ar/desarrollo/carreras/licenciatura-en-relaciones-publicas-e-institucionales/" rel="noopener noreferrer">Lic. en RRPP e Institucionales</a>
+            <a href="https://ucaecemdp.edu.ar/desarrollo/carreras/licenciatura-en-publicidad/" rel="noopener noreferrer">Lic. en Publicidad</a>
+            <a href="https://ucaecemdp.edu.ar/desarrollo/carreras/licenciatura-en-diseno-grafico-y-comunicacion-audiovisual/" rel="noopener noreferrer">Lic. en Diseño Gráfico</a>
+            <a href="https://ucaecemdp.edu.ar/desarrollo/carreras/ingenieria-en-sistemas/" rel="noopener noreferrer">Ingeniería en Sistemas</a>
+            <a href="https://ucaecemdp.edu.ar/desarrollo/carreras/licenciatura-en-sistemas/" rel="noopener noreferrer">Lic. en Sistemas</a>
+            <a href="https://ucaecemdp.edu.ar/desarrollo/carreras/traductor-publico-de-ingles/" rel="noopener noreferrer">Traductor Público de Inglés</a>
+          </div>
+        </div>
+        <div class="nav-item-dropdown">
+          <a href="#">La Universidad</a>
+          <div class="nav-dropdown-menu">
+            <a href="https://ucaecemdp.edu.ar/desarrollo/historia/" rel="noopener noreferrer">Historia</a>
+            <a href="https://ucaecemdp.edu.ar/desarrollo/autoridades/" rel="noopener noreferrer">Autoridades</a>
+            <a href="https://ucaecemdp.edu.ar/desarrollo/sedes/" rel="noopener noreferrer">Sedes</a>
+            <a href="https://ucaecemdp.edu.ar/desarrollo/investigacion/" rel="noopener noreferrer">Investigación</a>
+            <a href="https://ucaecemdp.edu.ar/desarrollo/biblioteca/" rel="noopener noreferrer">Biblioteca</a>
+            <a href="https://ucaecemdp.edu.ar/desarrollo/normas-academicas/" rel="noopener noreferrer">Normas Académicas</a>
+            <a href="https://ucaecemdp.edu.ar/desarrollo/noticias/" rel="noopener noreferrer">Noticias</a>
+          </div>
+        </div>
+        <div class="nav-item-dropdown">
+          <a href="#" class="nav-btn">Estudiantes</a>
+          <div class="nav-dropdown-menu">
+            <a href="https://ucaecemdp.edu.ar/desarrollo/deportes/" rel="noopener noreferrer">Deportes</a>
+            <a href="https://ucaecemdp.edu.ar/desarrollo/calendario-academico/" rel="noopener noreferrer">Calendario Académico</a>
+            <a href="https://ucaecemdp.edu.ar/desarrollo/beneficios/" rel="noopener noreferrer">Beneficios</a>
+            <a href="https://ucaecemdp.edu.ar/desarrollo/bienestar-estudiantil/" rel="noopener noreferrer">Bienestar Estudiantil</a>
+            <a href="https://ucaecemdp.edu.ar/desarrollo/movilidad-educativa/" rel="noopener noreferrer">Movilidad Educativa</a>
+            <a href="https://ucaecemdp.edu.ar/desarrollo/tesoreria/" rel="noopener noreferrer">Tesorería</a>
+            <a href="https://ucaecemdp.edu.ar/desarrollo/contactos-utiles/" rel="noopener noreferrer">Contactos útiles</a>
+          </div>
+        </div>
+        <a href="https://ucaecemdp.edu.ar/desarrollo/contacto/" rel="noopener noreferrer">Contacto</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- Mobile Drawer -->
+@if (mobileMenuOpen) {
+  <div class="mobile-menu-backdrop" (click)="closeMobileMenu()">
+    <aside class="mobile-menu" (click)="$event.stopPropagation()">
+      <div class="mobile-menu-header">
+        <img src="assets/images/logo.png" alt="Universidad CAECE" class="mobile-menu-logo" />
+        <button type="button" class="mobile-menu-close" (click)="closeMobileMenu()" aria-label="Cerrar menú">×</button>
+      </div>
+      <nav class="mobile-menu-nav">
+        @for (section of sections; track section.id) {
+          <button
+            type="button"
+            class="mobile-menu-section-toggle"
+            [class.expanded]="expandedMobileSection === section.id"
+            (click)="toggleMobileSection(section.id)">
+            {{ section.label }}
+            <svg class="mobile-menu-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          @if (expandedMobileSection === section.id) {
+            <div class="mobile-menu-sublist">
+              @for (item of section.items; track item.href) {
+                <a [href]="item.href" rel="noopener noreferrer" (click)="closeMobileMenu()">{{ item.label }}</a>
+              }
+            </div>
+          }
+        }
+        <a class="mobile-menu-section-link" [href]="mobileTopLink.href" rel="noopener noreferrer" (click)="closeMobileMenu()">
+          {{ mobileTopLink.label }}
+        </a>
+        <div class="mobile-menu-divider"></div>
+        @for (extra of mobileExtras; track extra.href) {
+          <a class="mobile-menu-link" [href]="extra.href" rel="noopener noreferrer" (click)="closeMobileMenu()">{{ extra.label }}</a>
+        }
+        <button
+          type="button"
+          class="mobile-menu-link mobile-menu-link-toggle"
+          [class.expanded]="expandedMobileSection === mobileLoginSection.id"
+          (click)="toggleMobileSection(mobileLoginSection.id)">
+          {{ mobileLoginSection.label }}
+          <svg class="mobile-menu-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+        @if (expandedMobileSection === mobileLoginSection.id) {
+          <div class="mobile-menu-sublist mobile-menu-sublist-small">
+            @for (item of mobileLoginSection.items; track item.href) {
+              <a [href]="item.href" rel="noopener noreferrer" (click)="closeMobileMenu()">{{ item.label }}</a>
+            }
+          </div>
+        }
+      </nav>
+    </aside>
+  </div>
+}
