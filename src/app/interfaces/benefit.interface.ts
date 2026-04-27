@@ -60,4 +60,5 @@ export interface CatalogItem {
   discount: string;
   categories: string[];
   branchCount: number;
+  subBenefits?: SubBenefit[];
 }
